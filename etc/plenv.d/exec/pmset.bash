@@ -1,4 +1,4 @@
-unset PM_HOME PM_PATH
+unset PERL_MB_OPT PERL_MM_OPT
 
 if [ "$(plenv-version-name)" = "system" ]; then
   PLENV_PMSET_ROOT="$PLENV_PMSET_SYSTEM_ROOT"
@@ -9,17 +9,16 @@ fi
 OLDIFS="$IFS"
 IFS=$' \t\n'
 for pmset in $(plenv-pmset active 2>/dev/null); do
-  path="${RBENV_PMSET_ROOT}/$pmset"
-  PATH="$path/bin:$PATH"
-  if [ -z "$PM_HOME" ]; then
-    PM_HOME="$path"
-    PM_PATH="$path"
-  else
-    PM_PATH="$PM_PATH:$path"
-  fi
+  path="${PLENV_PMSET_ROOT}/$pmset"
+  PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:$path";
+  PERL_MB_OPT="--install_base $path";
+  PERL_MM_OPT="INSTALL_BASE=$path";
+  PERL5LIB="$path/lib/perl5:$PERL5LIB";
+  PATH="$path/bin:$PATH";
+  MANPATH="$path/man:$MANPATH";
 done
 IFS="$OLDIFS"
 
-if [ -n "$PM_HOME" ]; then
-  export PM_HOME PM_PATH PATH
+if [ -n "$PERL_MB_OPT" ]; then
+  export PERL_LOCAL_LIB_ROOT PERL_MB_OPT PERL_MM_OPT PERL5LIB PATH MANPATH
 fi
