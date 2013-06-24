@@ -7,7 +7,7 @@ if [ -n "$PLENV_PMSETS" ]; then
   echo $PLENV_PMSETS
 elif [ -n "$pmset_file" ]; then
   PLENV_PMSETS="global"
-  PLENV_PMSETS="$(cat "$pmset_file") $PLENV_PMSETS"
+  PLENV_PMSETS="$(< "$pmset_file") $PLENV_PMSETS"
   echo $PLENV_PMSETS
 else
   echo "no active pmsets" >&2
