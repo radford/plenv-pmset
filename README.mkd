@@ -1,9 +1,9 @@
-# rbenv-gemset
+# plenv-pmset
 
-rbenv-gemset is an extension for the [rbenv][rbenv] ruby version manager that
-allows you to use "gemsets", sandboxed collections of gems. This lets you have
-multiple collections of gems installed in different sandboxes, and specify (on
-a per-application basis) which sets of gems should be used.
+plenv-pmset is an extension for the [plenv][plenv] perl version manager that
+allows you to use "pmsets", sandboxed collections of perl modules. This lets you have
+multiple collections of perl modules installed in different sandboxes, and specify (on
+a per-application basis) which sets of perl modules should be used.
 
 
 ## Installation
@@ -13,40 +13,44 @@ a per-application basis) which sets of gems should be used.
 The easiest way to install (if you are on Mac OSX) is via the [Homebrew][homebrew] package manager:
 
     $ brew update
-    $ brew install rbenv-gemset
+    $ brew install plenv-pmset
 
 ### GitHub
 
-Otherwise, clone rbenv-gemset to the `$HOME/.rbenv/plugins` directory:
+Otherwise, clone plenv-pmset to the `$HOME/.plenv/plugins` directory:
 
-    $ mkdir -p ~/.rbenv/plugins
-    $ cd ~/.rbenv/plugins
-    $ git clone git://github.com/jamis/rbenv-gemset.git
+    $ mkdir -p ~/.plenv/plugins
+    $ cd ~/.plenv/plugins
+    $ git clone git://github.com/radford/plenv-pmset.git
 
 ## Usage
 
-In your application directory, create a file named `.rbenv-gemsets` and put the
-names of the gemsets you want to use in it, separated by whitespace. The first
-gemset in the list will be the primary gemset, where new gems will be
+In your application directory, create a file named `.plenv-pmsets` and put the
+names of the pmsets you want to use in it, separated by whitespace. The first
+pmset in the list will be the primary pmset, where new perl modules will be
 installed.
 
-    $ echo my-gemset > .rbenv-gemsets
+    $ echo my-pmset > .plenv-pmsets
 
-Now, all commands involving gems will use the gemsets you specified.
+Now, all commands involving perl modules will use the pmsets you specified.
 
-The gemset plugin will cause rbenv to search for the `.rbenv-gemsets` file in
+The pmset plugin will cause plenv to search for the `.plenv-pmsets` file in
 the current directory, as well as in all ancestor directories, so as long
-as there is an `.rbenv-gemsets` file at or above the current directory.
+as there is an `.plenv-pmsets` file at or above the current directory.
 
-Alternatively, you can set the RBENV_GEMSET_FILE environment variable to the
-absolute path of the gemset file.
+Alternatively, you can set the PLENV_PMSET_FILE environment variable to the
+absolute path of the pmset file.
 
 
 ## License
 
-This code is placed in the public domain by the author, Jamis Buck. Use it as
-you wish. Please prefer good over evil.
+This code is a port of the [rbenv-gemset][gemset] plugin for use
+with [rbenv][rbenv] to [plenv][plenv] for use with perl.
 
+This code is placed in the public domain by the authors, Jamis Buck
+and Jim Radford. Use it as you wish. Please prefer good over evil.
 
-[rbenv]: http://github.com/sstephenson/rbenv
+[plenv]: https://github.com/tokuhirom/plenv
+[rbenv]: https://github.com/sstephenson/rbenv
+[gemset]: https://github.com/jamis/rbenv-gemset
 [homebrew]: http://mxcl.github.com/homebrew/

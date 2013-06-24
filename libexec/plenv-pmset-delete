@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -e
+
+# Provide plenv completions
+if [ "$1" = "--complete" ]; then
+  if [ -z "$2" ]; then
+    exec plenv-versions --bare
+  elif [ -z "$3" ]; then
+    shopt -s nullglob
+    pmsets=($(plenv prefix "$2")/pmsets/*)
+    shopt -u nullglob
+
+    if [ -n "$pmsets" ]; then
+      for pmset in ${pmsets[@]}; do
+        echo "${pmset##*/}"
+      done
+    fi
+  fi
+  exit
+fi
+
+PLENV_VERSION="$1"
+PLENV_PMSET="$2"
+if [ -z "$PLENV_VERSION" ] || [ -z "$PLENV_PMSET" ]; then
+  echo "you must specify a version and its associated pmset" >&2
+  exit 1
+fi
+
+PMSET_PATH="$(plenv prefix "$PLENV_VERSION")/pmsets/$PLENV_PMSET"
+
+if [ ! -d $PMSET_PATH ]; then
+  echo "couldn't delete ${PLENV_PMSET} from ${PLENV_VERSION}. Check if it exists"
+  exit 1
+fi
+
+rm -rf $PMSET_PATH
+echo "deleted ${PLENV_PMSET} from ${PLENV_VERSION}"

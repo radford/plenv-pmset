@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+
+for version in $(plenv versions --bare); do
+  shopt -s nullglob
+  pmsets=($(plenv prefix "$version")/pmsets/*)
+  shopt -u nullglob
+
+  if [ -n "$pmsets" ]; then
+    echo "$version:"
+    for pmset in ${pmsets[@]}; do
+      echo "  ${pmset##*/}"
+    done
+  fi
+done

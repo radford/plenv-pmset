@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+
+if [ -z "$PLENV_PMSET_FILE" ]; then
+  root="$(pwd)"
+  while [ -n "$root" ]; do
+    if [ -e "${root}/.plenv-pmsets" ]; then
+      PLENV_PMSET_FILE="${root}/.plenv-pmsets"
+      break
+    elif [ -e "${root}/.perl-pmset" ]; then
+      PLENV_PMSET_FILE="${root}/.perl-pmset"
+      break
+    fi
+    root="${root%/*}"
+  done
+fi
+
+if [ -e "$PLENV_PMSET_FILE" ]; then
+  echo "$PLENV_PMSET_FILE"
+  exit
+fi
+
+exit 1

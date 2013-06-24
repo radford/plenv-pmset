@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-RBENV_GEMSET_VERSION="0.3.0"
+PLENV_PMSET_VERSION="0.3.0"
 
-# Provide rbenv completions
+# Provide plenv completions
 if [ "$1" = "--complete" ]; then
   if [ -z "$2" ]; then
     echo "active"
@@ -14,18 +14,20 @@ if [ "$1" = "--complete" ]; then
     echo "version"
     exit
   else
-    gemset_completion=1
+    pmset_completion=1
     shift
   fi
 fi
 
 if [ "$1" = "version" ] || [ "$1" = "--version" ]; then
-  if [ -z "$gemset_completion" ]; then
+  if [ -z "$pmset_completion" ]; then
     exit
   fi
-  echo "rbenv-gemset ${RBENV_GEMSET_VERSION}"
-  echo "by Jamis Buck <jamis@jamisbuck.org>"
+  echo "plenv-pmset ${PLENV_PMSET_VERSION}"
+  echo "Original Ruby version by Jamis Buck <jamis@jamisbuck.org>"
   echo "http://github.com/jamis/rbenv-gemset"
+  echo "Perl port by Jim Radford <jim@jimradford.org>"
+  echo "http://github.com/radford/plenv-pmset"
   exit
 fi
 
@@ -50,33 +52,33 @@ abs_dirname() {
 bin_path="$(abs_dirname "$0")"
 export PATH="${bin_path}:$PATH"
 
-if [ -z "$RBENV_GEMSET_SYSTEM_ROOT" ]; then
-  export RBENV_GEMSET_SYSTEM_ROOT="/usr/local/share/ruby-gemsets"
+if [ -z "$PLENV_PMSET_SYSTEM_ROOT" ]; then
+  export PLENV_PMSET_SYSTEM_ROOT="/usr/local/share/perl-pmsets"
 fi
 
 command="$1"
-command_path="$(command -v "rbenv-gemset-$command" || true)"
+command_path="$(command -v "plenv-pmset-$command" || true)"
 
 if [ -z "$command_path" ]; then
-  { echo "version ${RBENV_GEMSET_VERSION}"
+  { echo "version ${PLENV_PMSET_VERSION}"
     echo "${0##*/} [command] [options]"
     echo
     echo "possible commands are:"
     echo "  active"
-    echo "  create [version] [gemset]"
-    echo "  delete [version] [gemset]"
+    echo "  create [version] [pmset]"
+    echo "  delete [version] [pmset]"
     echo "  file"
     echo "  list"
     echo "  version"
     echo
-    echo "For full documentation, see: https://github.com/jamis/rbenv-gemset#readme"
+    echo "For full documentation, see: https://github.com/jamis/plenv-pmset#readme"
   } >&2
   exit 1
 fi
 
 shift
-if [ -n "$gemset_completion" ] && grep -i "^# provide rbenv completions" "$command_path" >/dev/null; then
+if [ -n "$pmset_completion" ] && grep -i "^# provide plenv completions" "$command_path" >/dev/null; then
   exec "$command_path" --complete "$@"
-elif [ -z "$gemset_completion" ]; then
+elif [ -z "$pmset_completion" ]; then
   exec "$command_path" "$@"
 fi

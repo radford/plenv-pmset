@@ -1,10 +1,10 @@
 shopt -s nullglob
 OLDIFS="$IFS"
 IFS=$' \t\n'
-gemset_bin=(${RBENV_ROOT}/versions/*/gemsets/*/bin/*)
+pmset_bin=(${PLENV_ROOT}/versions/*/pmsets/*/bin/*)
 IFS="$OLDIFS"
 shopt -s nullglob
 
 cd "$SHIM_PATH"
-make_shims ${gemset_bin[@]}
+make_shims ${pmset_bin[@]}
 cd "$CUR_PATH"

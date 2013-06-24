@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+# Provide plenv completions
+if [ "$1" = "--complete" ]; then
+  if [ -z "$2" ]; then
+    exec plenv-versions --bare
+  fi
+  exit
+fi
+
+PLENV_VERSION="$1"
+if [ -z "$PLENV_VERSION" ]; then
+  { echo "you must specify an installed version to associate the pmset with"
+    echo "available versions are:"
+    plenv versions
+  } >&2
+  exit 1
+fi
+
+plenv prefix "$PLENV_VERSION" > /dev/null # make sure the provided version exists
+
+PLENV_PMSET="$2"
+if [ -z "$PLENV_PMSET" ]; then
+  echo "you must specify a name for the new pmset" >&2
+  exit 1
+fi
+
+PLENV_PMSET_PATH="$(plenv prefix "$PLENV_VERSION")/pmsets/$PLENV_PMSET"
+
+mkdir -p "$PLENV_PMSET_PATH"
+echo "created ${PLENV_PMSET} for ${PLENV_VERSION}"
